@@ -12,7 +12,7 @@ module.exports = {
     hardhat: {
     },
     goerli: {
-      url: `"https://goerli.infura.io/v3/"${infuraKey}`,
+      url: `https://goerli.infura.io/v3/${infuraKey}`,
       accounts: [privateKey]
     }
   },

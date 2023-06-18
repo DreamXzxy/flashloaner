@@ -63,14 +63,15 @@ async function main() {
             const priceUniswap = reserve0Uni / reserve1Uni;
             const priceSushiswap = reserve0Sushi / reserve1Sushi;
 
+            console.log(reserve0Sushi, reserve1Sushi);
+
             const shouldStartEth = priceUniswap < priceSushiswap;
             const spread = Math.abs((priceSushiswap / priceUniswap - 1) * 100) - 0.6;
 
             const ETH_AMOUNT = DAI_AMOUNT / priceUniswap;
             console.log("ETH Amount:_", ETH_AMOUNT);
 
-            // const shouldTrade = spread > (shouldStartEth ? ETH_AMOUNT : DAI_AMOUNT) * 0.003;
-            const shouldTrade = true;
+            const shouldTrade = spread > (shouldStartEth ? ETH_AMOUNT : DAI_AMOUNT) * 0.003;
             console.log("SHOULD START WITH ETH? ", shouldStartEth);
             console.log("SHOULD TRADE? ", shouldTrade);
 
@@ -84,20 +85,20 @@ async function main() {
                 //     gasLimit: ethers.utils.hexlify(1500000),
                 // });
 
-                const tx = await flashloanerContract.startArbitrage(
-                    wethAddress,
-                    daiAddress,
-                    !shouldStartEth ? DAI_AMOUNT : 0,
-                    shouldStartEth ? ETH_AMOUNT : 0,
-                {
-                    value: ethers.utils.parseEther("0.1"), // You can still send ETH if needed
-                    gasPrice: gasPrice,
-                    gasLimit: ethers.utils.hexlify(1500000),
-                });
+                // const tx = await flashloanerContract.startArbitrage(
+                //     wethAddress,
+                //     daiAddress,
+                //     !shouldStartEth ? DAI_AMOUNT : 0,
+                //     shouldStartEth ? ETH_AMOUNT : 0,
+                // {
+                //     value: ethers.utils.parseEther("0.1"), // You can still send ETH if needed
+                //     gasPrice: gasPrice,
+                //     gasLimit: ethers.utils.hexlify(1500000),
+                // });
 
-                console.log(`Tx Hash: ${tx.hash}`);
-                const receipt = await tx.wait();
-                console.log(`Tx Receipt: ${receipt.transactionHash}`);
+                // console.log(`Tx Hash: ${tx.hash}`);
+                // const receipt = await tx.wait();
+                // console.log(`Tx Receipt: ${receipt.transactionHash}`);
             }
         } catch (error) {
             console.error(error);
